@@ -124,15 +124,15 @@ def plotAll(audioFiles):
 
 
 
-durationd = 2
+duration = 2
 fs = 44100
 freq = 440 #hz
 noise = 0.5
 
-t_pureSine, gen_pureSine = generateSignal('Pure sine', freq, fs, noise, durationd)
-t_abruptSine, gen_abruptSine = generateSignal('Abrupt sine', freq, fs, noise, durationd)
-t_music, gen_music = generateSignal('Music', freq, fs, noise, durationd)
-t_vocal, gen_vocal = generateSignal('Vocal', freq, fs, noise, durationd)
+t_pureSine, gen_pureSine = generateSignal('Pure sine', freq, fs, noise, duration)
+t_abruptSine, gen_abruptSine = generateSignal('Abrupt sine', freq, fs, noise, duration)
+t_music, gen_music = generateSignal('Music', freq, fs, noise, duration)
+t_vocal, gen_vocal = generateSignal('Vocal', freq, fs, noise, duration)
 
 generatedSignals = {
     1 : (t_pureSine, gen_pureSine),
