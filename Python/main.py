@@ -1,143 +1,123 @@
+import scipy.io.wavfile as wavfile
+from scipy.signal import butter, lfilter, firwin, savgol_filter
+from IPython.display import Audio
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.fftpack import fft
-from scipy.signal import find_peaks, butter, filtfilt
-import SingnalGeneration as sg
+from matplotlib.lines import Line2D
 
+audioFiles = {
+    1: 'A4',
+    2: 'A5',
+    3: 'B',
+    4: 'C#',
+    5: 'D',
+    6: 'E',
+    7: 'F#',
+    8: 'G#',
+    9: 'Zauberflöte_vocal'
+}
 
-maxInterval = 0.2 # s
-freq = 0.5 # hz
-f_0 = 25
-f_1 = 4_200
+def openAudio(filename, audioType):
+    """Open audio file based on audio type and filename."""
+    if audioType <= 8:
+        fs, sampleData = wavfile.read(f'./Python/sample_audio/{filename}_oboe.wav')
+    else:
+        fs, sampleData = wavfile.read('./Python/sample_audio/Zauberflöte_vocal.wav')
+    N = len(sampleData)
+    return fs, sampleData, N
 
-def genSineWave(freq, samplingRate, time, noiseLevel = 0):
-    t = np.linspace(0, time, int(samplingRate * time), endpoint=False)
-    signal = np.sin(2 * np.pi * freq * t)
-    noise = noiseLevel * np.random.normal(size=t.shape)
-    return t, signal + noise
+def computeDFT(sampleData, N, fs):
+    """Compute the Discrete Fourier Transform (DFT) of the signal."""
+    dft = np.fft.fft(sampleData[:N])[:N//2]
+    freqs = np.fft.fftfreq(N, d=1/fs)[:N//2]
+    mags = np.abs(dft)
+    return freqs, mags
 
-def generateFreqChangeWave(fStart, fEnd, samplingRate, time):
-    t = np.linspace(0, time, int(samplingRate * time), endpoint=False)
-    freqs = np.linspace(fStart, fEnd, t.size)
-    signal = np.sin(2 * np.pi * freqs * t)
-    return t, signal
-
-def frequencyDetection(signal, samplingRate):
-    N = len(signal)
-    dft = fft(signal)
-    magnitudes = np.abs(dft[:N // 2])
-    freqBins = np.fft.fftfreq(N, 1 / samplingRate)[:N // 2]
-    dominantFreq = freqBins[np.argmax(magnitudes)]
-    return dominantFreq, magnitudes, freqBins
-
-def frequencyDetectionZeroPadding(signal, samplingRate, padFactor=2):
-    N = len(signal)
-    paddedSignal = np.pad(signal, (0, N * (padFactor - 1)), 'constant')
-    dft = fft(paddedSignal)
-    magnitudes = np.abs(dft[:N * padFactor // 2])
-    freqBins = np.fft.fftfreq(len(paddedSignal), 1 / samplingRate)[:N * padFactor // 2]
-    dominantFreq = freqBins[np.argmax(magnitudes)]
-    return dominantFreq, magnitudes, freqBins
-
-def bandpassFilter(signal, samplingRate, lowcut=25, highcut=4200, order=5):
-    nyquist = 0.5 * samplingRate
-    low = lowcut / nyquist
-    high = highcut / nyquist
-    b, a = butter(order, [low, high], btype='band')
-    return filtfilt(b, a, signal)
-
-def frequencyDetectionWithFilter(signal, samplingRate):
-    filteredSignal = bandpassFilter(signal, samplingRate)
-    return frequencyDetection(filteredSignal, samplingRate)
-
-
-def harmonicAnalysis(signal, samplingRate):
-    dominantFreq, magnitudes, freqBins = frequencyDetection(signal, samplingRate)
-    harmonics = [dominantFreq * i for i in range(1, 6)]
-    mainFundamental = min(harmonics, key=lambda h: abs(h - dominantFreq))
-    return mainFundamental, magnitudes, freqBins
-
-
-def plotResults(t, signal, samplingRate, detectionFunc, title="Frequency Detection"):
-    freq, magnitudes, freqBins = detectionFunc(signal, samplingRate)
-    plt.figure(figsize=(12, 6))
-    plt.subplot(2, 1, 1)
-    plt.plot(t, signal)
-    plt.title("Time Domain Signal")
-    plt.xlabel("Time [s]")
-    plt.ylabel("Amplitude")
+class Filter:
+    """
+    Class to implement filtering functions.
+    """
+    @staticmethod
+    def zeroPad(sampleData, targetLength):
+        filterType = "Zero padding"
+        filteredData = np.pad(sampleData, (0, targetLength - len(sampleData)), 'constant')
+        return filteredData, filterType 
     
-    plt.subplot(2, 1, 2)
-    plt.plot(freqBins, magnitudes)
-    plt.title(f"{title}: Dominant Frequency = {freq:.2f} Hz")
-    plt.xlabel("Frequency [Hz]")
-    plt.ylabel("Magnitude")
+    @staticmethod
+    def bandpassFilter(sampleData, fs, lowcut, highcut):
+        nyquist = 0.5 * fs
+        low = lowcut / nyquist
+        high = highcut / nyquist
+        b, a = butter(4, [low, high], btype='band')
+        filterType = "Bandpass"
+        filteredData = lfilter(b, a, sampleData)
+        return filteredData, filterType
+    
+
+    @staticmethod
+    def low_highPassFilter(sampleData, fs, cutoff, btype):
+        """
+        Apply a low- or high-pass Butterworth filter.
+        """
+        nyquist = fs * 0.5
+        normal_cutoff = cutoff / nyquist
+        b, a = butter(4, normal_cutoff, btype)
+
+        filteredData = lfilter(b, a, sampleData)
+        if btype == 'low':
+            filterType = "Low-pass"
+        else:  
+            filterType = "High-pass"
+        return  filteredData, filterType
+
+def test_frequency_detection(audioFiles):
+    results = {}
+    for audioType, filename in audioFiles.items():
+        fs, sampleData, N, nyquist = openAudio(filename, audioType)
+        freqs, mags = computeDFT(sampleData, N, fs)
+        fundamental = freqs[np.argmax(mags)]
+        results[filename] = fundamental
+        print(f'{filename}: Detected frequency = {fundamental} Hz')
+    return results
+
+def plot_spectrum(title, freqs, mags, freqsFiltered, magsFiltered):
+    """Plot the frequency spectrum."""
+    plt.figure()
+    plt.plot(freqs, mags)
+    plt.plot(freqsFiltered, magsFiltered, color='red', linestyle='dashed')
+    plt.title(title)
+    plt.xlabel('Frequency (Hz)')
+    plt.ylabel('Amplitude')
+    plt.grid(True)
+    plt.legend(['Original', 'Filtered'])
     plt.show()
 
-# Test the baseline and modifications
-samplingRate = 10_000
-time = 1.0
-t, signal = genSineWave(freq=440, samplingRate=samplingRate, time=time, noiseLevel=0.1)
+# Plots all the audio files and their frequency spectrum before and after filtering
+def plotAll(audioFiles):
+    fig, axes = plt.subplots(3, 3, figsize=(12, 12))
+    for i in range(1, 10):
+        audioType = i
+        filename = audioFiles.get(audioType, "")
+        fs, sampleData, N = openAudio(filename, audioType)
+        freqs, mags = computeDFT(sampleData, N, fs)
+        filteredData, filteType = Filter.low_highPassFilter(sampleData, fs, 1000, 'high')
+        freqsFiltered, magsFiltered = computeDFT(filteredData, N, fs)
+        row = (i - 1) // 3
+        col = (i - 1) % 3
+        ax = axes[row, col]
+        ax.plot(freqs, mags, color='blue')
+        ax.plot(freqsFiltered, magsFiltered, color='red', linestyle=(0, (1, 5)))
+        ax.set_title(f'{filename} audio')
+        ax.set_xlabel('Frequency (Hz)')
+        ax.set_ylabel('Amplitude')
+        ax.set_xlim(0, 5000)    # Nothing fun after 5kHz
+        ax.grid(True)
+            
+    plt.subplots_adjust(hspace=0.69, wspace=0.420)  # hehe funny numbers
+    fig.suptitle(f'Filter type: {filteType}', fontsize=20)
+    line_original = Line2D([0], [0], color='blue', lw=2)
+    line_filtered = Line2D([0], [0], color='red', lw=2, linestyle=(0, (1,5)))
+    fig.legend([line_original, line_filtered], ['Original', 'Filtered'], loc='upper right', fontsize=14, frameon=True, ncol=1)
+    plt.show()
 
-
-# Plot all the data in one window
-plt.figure(figsize=(12, 12))
-
-# Baseline Detection
-plt.subplot(4, 2, 1)
-plt.plot(t, signal)
-plt.title("Time Domain Signal - Baseline Detection")
-plt.xlabel("Time [s]")
-plt.ylabel("Amplitude")
-
-plt.subplot(4, 2, 2)
-freq, magnitudes, freqBins = frequencyDetection(signal, samplingRate)
-plt.plot(freqBins, magnitudes)
-plt.title(f"Baseline Detection: Dominant Frequency = {freq:.2f} Hz")
-plt.xlabel("Frequency [Hz]")
-plt.ylabel("Magnitude")
-
-# Zero-Padding Detection
-plt.subplot(4, 2, 3)
-plt.plot(t, signal)
-plt.title("Time Domain Signal - Zero-Padding Detection")
-plt.xlabel("Time [s]")
-plt.ylabel("Amplitude")
-
-plt.subplot(4, 2, 4)
-freq, magnitudes, freqBins = frequencyDetectionZeroPadding(signal, samplingRate)
-plt.plot(freqBins, magnitudes)
-plt.title(f"Zero-Padding Detection: Dominant Frequency = {freq:.2f} Hz")
-plt.xlabel("Frequency [Hz]")
-plt.ylabel("Magnitude")
-
-# Filtered Detection
-plt.subplot(4, 2, 5)
-plt.plot(t, signal)
-plt.title("Time Domain Signal - Filtered Detection")
-plt.xlabel("Time [s]")
-plt.ylabel("Amplitude")
-
-plt.subplot(4, 2, 6)
-freq, magnitudes, freqBins = frequencyDetectionWithFilter(signal, samplingRate)
-plt.plot(freqBins, magnitudes)
-plt.title(f"Filtered Detection: Dominant Frequency = {freq:.2f} Hz")
-plt.xlabel("Frequency [Hz]")
-plt.ylabel("Magnitude")
-
-# Harmonic Analysis Detection
-plt.subplot(4, 2, 7)
-plt.plot(t, signal)
-plt.title("Time Domain Signal - Harmonic Analysis Detection")
-plt.xlabel("Time [s]")
-plt.ylabel("Amplitude")
-
-plt.subplot(4, 2, 8)
-freq, magnitudes, freqBins = harmonicAnalysis(signal, samplingRate)
-plt.plot(freqBins, magnitudes)
-plt.title(f"Harmonic Analysis Detection: Main Fundamental = {freq:.2f} Hz")
-plt.xlabel("Frequency [Hz]")
-plt.ylabel("Magnitude")
-
-plt.tight_layout()
-plt.show()
+plotAll(audioFiles)

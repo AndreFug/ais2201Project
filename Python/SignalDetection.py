@@ -86,13 +86,6 @@ duration = 2
 frequency = 560  
 noiseLevel = 0.2 
 
-for signalType in range(1, 5):
-    for method in range(1, 6):
-        if method <= 1:
-            print("\n\nNew method ")
-        t, signal = sg.generateSignal(signalType, frequency, samplingRate, noiseLevel, duration)
-        detectedFreq = detectDominantFrequency(signal, samplingRate, method)
-        print(f"Detected frequency for signal type {signalType} & method {method}: {detectedFreq:.2f} Hz")
 
 
 # # Visualize the generated signal
