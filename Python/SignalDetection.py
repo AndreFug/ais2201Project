@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.signal 
 from scipy.fftpack import fft
-import SingnalGeneration as sg
+
 
 
 
