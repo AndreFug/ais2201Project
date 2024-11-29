@@ -6,6 +6,22 @@ import librosa.display
 import soundfile as sf
 
 def generateSignal(signalType, frequency, samplingRate, noiseLevel, duration):
+    
+    '''
+    Args:
+        - signalType (int): Type of signal to generate.
+            1 = Pure sine wave with varying levels of noise
+            2 = Sine wave with abrupt change in frequency
+            3 = Musical instrument with varying levels of noise
+            4 = Vocal
+        - frequency (int): Frequency of the sine wave in Hz.
+        - samplingRate (int): Sampling rate in Hz.
+        - noiseLevel (float): Standard deviation of the noise.
+        - duration (int): Duration of the signal in seconds.
+    '''
+
+
+
     t = np.linspace(0, duration, int(samplingRate * duration), endpoint=False)
 
     if signalType == 1:

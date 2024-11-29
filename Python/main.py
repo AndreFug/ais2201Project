@@ -18,7 +18,6 @@ def genSineWave(freq, samplingRate, time, noiseLevel = 0):
 
 def generateFreqChangeWave(fStart, fEnd, samplingRate, time):
     t = np.linspace(0, time, int(samplingRate * time), endpoint=False)
-    # Linear frequency change
     freqs = np.linspace(fStart, fEnd, t.size)
     signal = np.sin(2 * np.pi * freqs * t)
     return t, signal
