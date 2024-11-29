@@ -4,6 +4,8 @@ from IPython.display import Audio
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
+from signalGenerator import *
+from baseline_algorithm import *
 
 audioFiles = {
     1: 'A4',
@@ -120,4 +122,48 @@ def plotAll(audioFiles):
     fig.legend([line_original, line_filtered], ['Original', 'Filtered'], loc='upper right', fontsize=14, frameon=True, ncol=1)
     plt.show()
 
+
+
+durationd = 2
+fs = 44100
+freq = 440 #hz
+noise = 0.5
+
+t_pureSine, gen_pureSine = generateSignal('Pure sine', freq, fs, noise, durationd)
+t_abruptSine, gen_abruptSine = generateSignal('Abrupt sine', freq, fs, noise, durationd)
+t_music, gen_music = generateSignal('Music', freq, fs, noise, durationd)
+t_vocal, gen_vocal = generateSignal('Vocal', freq, fs, noise, durationd)
+
+generatedSignals = {
+    1 : (t_pureSine, gen_pureSine),
+    2 : (t_abruptSine, gen_abruptSine),
+    3 : (t_music, gen_music),
+    4 : (t_vocal, gen_vocal)
+}
+
+def plotGenSignals(generatedSignals):
+    fig, axes = plt.subplots(2, 2, figsize=(12, 12))
+    for i, (key, (t, signal)) in enumerate(generatedSignals.items()):
+        t_diff = np.diff(t)
+        delta_t = np.mean(t_diff)
+        fs = 1 / delta_t
+        freqs, mags = computeDFT(signal, len(signal), fs)
+        filteredData, dontUse = Filter.low_highPassFilter(signal, fs, 1000, 'high')
+        freqsFiltered, magsFiltered = computeDFT(filteredData, len(filteredData), fs)
+        row = i // 2
+        col = i % 2
+        ax = axes[row, col]
+        ax.plot(freqs, mags, color='blue', label='Original FFT')
+        ax.plot(freqsFiltered, magsFiltered, color='red', linestyle='dashed', label='Filtered DFT')
+        ax.set_title(f'Signal {key}')
+        ax.set_xlabel('Frequency (Hz)')
+        ax.set_ylabel('Amplitude')
+        ax.set_xlim(0, 5000)  # Limiting to 5 kHz
+        ax.grid(True)
+        ax.legend()
+
+    plt.tight_layout()
+    plt.show()
+
 plotAll(audioFiles)
+plotGenSignals(generatedSignals)
