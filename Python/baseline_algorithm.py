@@ -29,4 +29,5 @@ def freq_detection(x_n: np.ndarray, fs: int, N: int = 1024)->float:
         m_peak = np.argmax(np.abs(X_m))  # Find the index of the highest peak in 'X_m'
         freqs.append(m_peak/N*fs)  # Convert frequency index to wave frequency 'f' in hertz
         timestamps.append(window_end/fs)
-    return timestamps, freqs
+        mags = np.abs(X_m[m_peak])  # Find the magnitude of the highest peak
+    return timestamps, freqs, mags
