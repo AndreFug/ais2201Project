@@ -81,10 +81,10 @@ def detectDominantFrequency(signal, fs, method):
 # signalType = 1
 # method = 1
 
-samplingRate = 44100  
-duration = 2  
-frequency = 560  
-noiseLevel = 0.2 
+# samplingRate = 44100  
+# duration = 2  
+# frequency = 560  
+# noiseLevel = 0.2 
 
 
 
