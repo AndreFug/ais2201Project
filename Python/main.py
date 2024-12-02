@@ -72,6 +72,25 @@ class Filter:
         else:  
             filterType = "High-pass"
         return  filteredData, filterType
+    
+    @staticmethod
+
+    @staticmethod
+    def firFilter(sampleData, fs, cutoff, numtaps, btype):
+        """
+        Apply a Finite Impulse Response (FIR) filter.
+        """
+        nyquist = 0.5 * fs
+        normal_cutoff = cutoff / nyquist
+        filterType = "FIR"
+        if btype == 'low':
+            taps = firwin(numtaps, normal_cutoff)
+        elif btype == 'high':
+            taps = firwin(numtaps, normal_cutoff, pass_zero=False)
+        else:
+            raise ValueError("btype must be 'low' or 'high'")
+        filteredData = lfilter(taps, 1.0, sampleData)
+        return filteredData, filterType
 
 def test_frequency_detection(audioFiles):
     results = {}
@@ -88,6 +107,7 @@ def plot_spectrum(title, freqs, mags, freqsFiltered, magsFiltered):
     plt.figure()
     plt.plot(freqs, mags)
     plt.plot(freqsFiltered, magsFiltered, color='red', linestyle='dashed')
+    # Plt plot instead of magnitude_spectrum since it runns faster, gives same result.
     plt.title(title)
     plt.xlabel('Frequency (Hz)')
     plt.ylabel('Amplitude')
@@ -103,7 +123,7 @@ def plotAll(audioFiles):
         filename = audioFiles.get(audioType, "")
         fs, sampleData, N = openAudio(filename, audioType)
         freqs, mags = computeDFT(sampleData, N, fs)
-        filteredData, filteType = Filter.low_highPassFilter(sampleData, fs, 1000, 'high')       # Change for different filter types
+        filteredData, filteType = Filter.zeroPad(sampleData, 2 * N)
         freqsFiltered, magsFiltered = computeDFT(filteredData, N, fs)
         row = (i - 1) // 3
         col = (i - 1) % 3
@@ -149,7 +169,7 @@ def plotGenSignals(generatedSignals):
         delta_t = np.mean(t_diff)
         fs = 1 / delta_t
         freqs, mags = computeDFT(signal, len(signal), fs)
-        filteredData, filteType = Filter.low_highPassFilter(signal, fs, 1000, 'high')          # Change for different filter types
+        filteredData, filteType = Filter.low_highPassFilter(signal, fs, 1000, 'High')          # Change for different filter types
         freqsFiltered, magsFiltered = computeDFT(filteredData, len(filteredData), fs)
         row = i // 2
         col = i % 2
@@ -171,4 +191,4 @@ def plotGenSignals(generatedSignals):
     plt.show()
 
 plotAll(audioFiles)
-plotGenSignals(generatedSignals)
+# plotGenSignals(generatedSignals)
