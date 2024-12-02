@@ -1,10 +1,5 @@
 import numpy as np
-import scipy.signal as signal
-import matplotlib.pyplot as plt
-import librosa
-import librosa.display
-import soundfile as sf
-
+import librosa, librosa.display
 
 
 def generateSignal(signalType, frequency, samplingRate, noiseLevel, duration):
@@ -26,16 +21,16 @@ def generateSignal(signalType, frequency, samplingRate, noiseLevel, duration):
     t = np.linspace(0, duration, int(samplingRate * duration), endpoint=False)
     if signalType == 'Pure sine':
         # Pure sine wave with varying levels of noise
-        sine_wave = np.sin(2 * np.pi * frequency * t)
-        noise = np.random.normal(0, noiseLevel, sine_wave.shape)
-        signalOut = sine_wave + noise
+        sineWave = np.sin(2 * np.pi * frequency * t)
+        noise = np.random.normal(0, noiseLevel, sineWave.shape)
+        signalOut = sineWave + noise
     
     elif signalType == 'Abrupt sine':
         # Sine wave with abrupt change in frequency
         midpoint = len(t) // 2
-        sine_wave_1 = np.sin(2 * np.pi * frequency * t[:midpoint])
-        sine_wave_2 = np.sin(2 * np.pi * (frequency * 2) * t[midpoint:])
-        signalOut = np.concatenate((sine_wave_1, sine_wave_2))
+        sineWave1 = np.sin(2 * np.pi * frequency * t[:midpoint])
+        sineWave2 = np.sin(2 * np.pi * (frequency * 2) * t[midpoint:])
+        signalOut = np.concatenate((sineWave1, sineWave2))
     
     elif signalType == 'Music':
         # Musical instrument with varying levels of noise
@@ -48,5 +43,5 @@ def generateSignal(signalType, frequency, samplingRate, noiseLevel, duration):
         y, _ = librosa.load(librosa.example('vibeace'), sr=samplingRate, duration=duration)
         signalOut = y
     else:
-        raise ValueError("Invalid signal type. Please choose a value between 1 and 4.")
+        raise ValueError("Write the correct signal type, moron :)")
     return t, signalOut, signalType
