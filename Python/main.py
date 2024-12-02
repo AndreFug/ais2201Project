@@ -113,7 +113,7 @@ def plotAll(audioFiles):
         ax.set_title(f'{filename} audio')
         ax.set_xlabel('Frequency (Hz)')
         ax.set_ylabel('Amplitude')
-        ax.set_xlim(0, 5000)    # Nothing fun after 5kHz
+        ax.set_xlim(0, 5e3)    # Nothing fun after 5kHz
         ax.grid(True)
             
     plt.subplots_adjust(hspace=0.69, wspace=0.420)  # hehe funny numbers
@@ -125,45 +125,49 @@ def plotAll(audioFiles):
 
 
 
-duration = 2
+duration = 1
 fs = 44100
 freq = 440 #hz
 noise = 0.5
 
-t_pureSine, gen_pureSine = generateSignal('Pure sine', freq, fs, noise, duration)
-t_abruptSine, gen_abruptSine = generateSignal('Abrupt sine', freq, fs, noise, duration)
-t_music, gen_music = generateSignal('Music', freq, fs, noise, duration)
-t_vocal, gen_vocal = generateSignal('Vocal', freq, fs, noise, duration)
+t_pureSine, gen_pureSine, signalType_pureSine = generateSignal('Pure sine', freq, fs, noise, duration)
+t_abruptSine, gen_abruptSine, signalType_abrupt = generateSignal('Abrupt sine', freq, fs, noise, duration)
+t_music, gen_music, signalType_music = generateSignal('Music', freq, fs, noise, duration)
+t_vocal, gen_vocal, signalType_vocal = generateSignal('Vocal', freq, fs, noise, duration)
 
 generatedSignals = {
-    1 : (t_pureSine, gen_pureSine),
-    2 : (t_abruptSine, gen_abruptSine),
-    3 : (t_music, gen_music),
-    4 : (t_vocal, gen_vocal)
+    1 : (t_pureSine, gen_pureSine, signalType_pureSine),
+    2 : (t_abruptSine, gen_abruptSine, signalType_abrupt),
+    3 : (t_music, gen_music, signalType_music),
+    4 : (t_vocal, gen_vocal, signalType_vocal)
 }
 
 def plotGenSignals(generatedSignals):
     fig, axes = plt.subplots(2, 2, figsize=(12, 12))
-    for i, (key, (t, signal)) in enumerate(generatedSignals.items()):
+    for i, (key, (t, signal, signalType)) in enumerate(generatedSignals.items()):
         t_diff = np.diff(t)
         delta_t = np.mean(t_diff)
         fs = 1 / delta_t
         freqs, mags = computeDFT(signal, len(signal), fs)
-        filteredData, dontUse = Filter.low_highPassFilter(signal, fs, 1000, 'high')          # Change for different filter types
+        filteredData, filteType = Filter.low_highPassFilter(signal, fs, 1000, 'high')          # Change for different filter types
         freqsFiltered, magsFiltered = computeDFT(filteredData, len(filteredData), fs)
         row = i // 2
         col = i % 2
         ax = axes[row, col]
         ax.plot(freqs, mags, color='blue', label='Original FFT')
         ax.plot(freqsFiltered, magsFiltered, color='red', linestyle='dashed', label='Filtered DFT')
-        ax.set_title(f'Signal {key}')
+        ax.set_title(signalType)
         ax.set_xlabel('Frequency (Hz)')
         ax.set_ylabel('Amplitude')
-        ax.set_xlim(0, 5000)  # Limiting to 5 kHz
+        ax.set_xlim(0, 5e3)  # Limiting to 5 kHz
         ax.grid(True)
         ax.legend()
 
-    plt.tight_layout()
+    plt.subplots_adjust(hspace=0.69, wspace=0.420)  # hehe funny numbers again
+    fig.suptitle(f'Filter type: {filteType}', fontsize=20)
+    line_original = Line2D([0], [0], color='blue', lw=2)
+    line_filtered = Line2D([0], [0], color='red', lw=2, linestyle=(0, (1,5)))
+    fig.legend([line_original, line_filtered], ['Original', 'Filtered'], loc='upper right', fontsize=14, frameon=True, ncol=1)
     plt.show()
 
 plotAll(audioFiles)
