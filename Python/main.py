@@ -103,7 +103,7 @@ def plotAll(audioFiles):
         filename = audioFiles.get(audioType, "")
         fs, sampleData, N = openAudio(filename, audioType)
         freqs, mags = computeDFT(sampleData, N, fs)
-        filteredData, filteType = Filter.low_highPassFilter(sampleData, fs, 1000, 'high')
+        filteredData, filteType = Filter.low_highPassFilter(sampleData, fs, 1000, 'high')       # Change for different filter types
         freqsFiltered, magsFiltered = computeDFT(filteredData, N, fs)
         row = (i - 1) // 3
         col = (i - 1) % 3
@@ -149,7 +149,7 @@ def plotGenSignals(generatedSignals):
         delta_t = np.mean(t_diff)
         fs = 1 / delta_t
         freqs, mags = computeDFT(signal, len(signal), fs)
-        filteredData, dontUse = Filter.low_highPassFilter(signal, fs, 1000, 'high')
+        filteredData, dontUse = Filter.low_highPassFilter(signal, fs, 1000, 'high')          # Change for different filter types
         freqsFiltered, magsFiltered = computeDFT(filteredData, len(filteredData), fs)
         row = i // 2
         col = i % 2
