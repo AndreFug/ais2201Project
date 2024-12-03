@@ -1,8 +1,7 @@
 # Imports
-import scipy.io.wavfile as wavfile
-from scipy.signal import butter, lfilter, firwin, savgol_filter
-from IPython.display import Audio
 import numpy as np
+import scipy.io.wavfile as wavfile
+from scipy.signal import butter, lfilter, firwin
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from signalGenerator import *
@@ -47,7 +46,7 @@ class Filter:
         return filteredData, filterType 
     
     @staticmethod
-    def bandpassFilter(sampleData, fs, lowcut, highcut):
+    def bandpassFilter(sampleData, fs, lowcut=25, highcut=4200):    # Given parameters from task
         nyquist = 0.5 * fs
         low = lowcut / nyquist
         high = highcut / nyquist
@@ -58,19 +57,22 @@ class Filter:
     
 
     @staticmethod
-    def low_highPassFilter(sampleData, fs, cutoff, btype):
+    def low_highPassFilter(sampleData, fs, btype, cutoff=0):
         """
         Apply a low- or high-pass Butterworth filter.
         """
+        if btype == 'low':
+            cutoff = 25
+            filterType = "Low-pass"
+        else:  
+            filterType = "High-pass"
+            cutoff = 4200
         nyquist = fs * 0.5
         normal_cutoff = cutoff / nyquist
         b, a = butter(4, normal_cutoff, btype)
 
         filteredData = lfilter(b, a, sampleData)
-        if btype == 'low':
-            filterType = "Low-pass"
-        else:  
-            filterType = "High-pass"
+
         return  filteredData, filterType
     
     @staticmethod
@@ -128,8 +130,10 @@ def plotAll(audioFiles):
         row = (i - 1) // 3
         col = (i - 1) % 3
         ax = axes[row, col]
+        FREQts, FREQfreqsl, FREQmagsl = freq_detection(filteredData, fs, len(filteredData))
         ax.plot(freqs, mags, color='blue')
         ax.plot(freqsFiltered, magsFiltered, color='red', linestyle=(0, (1, 5)))
+        ax.plot(FREQts, FREQfreqsl, color='green', linestyle='dotted', label='Frequency detection')
         ax.set_title(f'{filename} audio')
         ax.set_xlabel('Frequency (Hz)')
         ax.set_ylabel('Amplitude')
@@ -174,8 +178,10 @@ def plotGenSignals(generatedSignals):
         row = i // 2
         col = i % 2
         ax = axes[row, col]
+        FREQts, FREQfreqsl, FREQmagsl = freq_detection(signal, fs, len(signal))
         ax.plot(freqs, mags, color='blue', label='Original FFT')
         ax.plot(freqsFiltered, magsFiltered, color='red', linestyle='dashed', label='Filtered DFT')
+        ax.plot(FREQts, FREQfreqsl, color='green', linestyle='dotted', label='Frequency detection')
         ax.set_title(signalType)
         ax.set_xlabel('Frequency (Hz)')
         ax.set_ylabel('Amplitude')
@@ -192,3 +198,5 @@ def plotGenSignals(generatedSignals):
 
 plotAll(audioFiles)
 # plotGenSignals(generatedSignals)
+
+
