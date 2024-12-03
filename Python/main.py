@@ -35,6 +35,15 @@ def computeDFT(sampleData, N, fs):
     mags = np.abs(dft)
     return freqs, mags
 
+def detectDominantFrequency(sampleData, fs, N):
+    """Detect the dominant frequency in the signal."""
+    X = np.fft.fft(sampleData[:N])[:N//2]
+    mags = np.abs(X)
+    idx = np.argmax(mags)  # Index of the peak frequency
+    dominant_freq = idx * fs / N
+    return dominant_freq
+
+
 class Filter:
     """
     Class to implement filtering functions.
@@ -76,8 +85,6 @@ class Filter:
         return  filteredData, filterType
     
     @staticmethod
-
-    @staticmethod
     def firFilter(sampleData, fs, cutoff, numtaps, btype):
         """
         Apply a Finite Impulse Response (FIR) filter.
@@ -104,47 +111,50 @@ def test_frequency_detection(audioFiles):
         print(f'{filename}: Detected frequency = {fundamental} Hz')
     return results
 
-def plot_spectrum(title, freqs, mags, freqsFiltered, magsFiltered):
-    """Plot the frequency spectrum."""
+def plot_spectrum(title, freqs, mags, freqsFiltered, magsFiltered, dominantFreqBefore, dominantFreqAfter):
+    """Plot the frequency spectrum with dominant frequencies marked."""
     plt.figure()
-    plt.plot(freqs, mags)
-    plt.plot(freqsFiltered, magsFiltered, color='red', linestyle='dashed')
-    # Plt plot instead of magnitude_spectrum since it runns faster, gives same result.
+    plt.plot(freqs, mags, label='Original')
+    plt.plot(freqsFiltered, magsFiltered, color='red', linestyle='dashed', label='Filtered')
+    plt.axvline(x=dominantFreqBefore, color='blue', linestyle=':', label=f'Dominant Freq Before: {dominantFreqBefore:.2f} Hz')
+    plt.axvline(x=dominantFreqAfter, color='red', linestyle=':', label=f'Dominant Freq After: {dominantFreqAfter:.2f} Hz')
     plt.title(title)
     plt.xlabel('Frequency (Hz)')
     plt.ylabel('Amplitude')
     plt.grid(True)
-    plt.legend(['Original', 'Filtered'])
+    plt.legend()
     plt.show()
 
 # Plots all the audio files and their frequency spectrum before and after filtering
 def plotAll(audioFiles):
-    fig, axes = plt.subplots(3, 3, figsize=(12, 12))
+    fig, axes = plt.subplots(3, 3, figsize=(15, 12))
     for i in range(1, 10):
         audioType = i
         filename = audioFiles.get(audioType, "")
         fs, sampleData, N = openAudio(filename, audioType)
         freqs, mags = computeDFT(sampleData, N, fs)
-        filteredData, filteType = Filter.zeroPad(sampleData, 2 * N)
+        filteredData, filterType = Filter.zeroPad(sampleData, 2 * N)
         freqsFiltered, magsFiltered = computeDFT(filteredData, N, fs)
+        dominantFreqBefore = detectDominantFrequency(sampleData, fs, N)
+        dominantFreqAfter =  detectDominantFrequency(filteredData, fs, N)
+
+        # Plotting, dont change
         row = (i - 1) // 3
         col = (i - 1) % 3
         ax = axes[row, col]
-        FREQts, FREQfreqsl, FREQmagsl = freq_detection(filteredData, fs, len(filteredData))
-        ax.plot(freqs, mags, color='blue')
-        ax.plot(freqsFiltered, magsFiltered, color='red', linestyle=(0, (1, 5)))
-        ax.plot(FREQts, FREQfreqsl, color='green', linestyle='dotted', label='Frequency detection')
+        ax.plot(freqs, mags, color='navy', label='Original')
+        ax.plot(freqsFiltered, magsFiltered, color='darkred', linestyle='dashed', label='Filtered')
+        ax.axvline(x=dominantFreqBefore, color='magenta', linestyle='-', label=f'Freq Before: {dominantFreqBefore:.2f} Hz')
+        ax.axvline(x=dominantFreqAfter, color='gold', linestyle=':', label=f'Freq After: {dominantFreqAfter:.2f} Hz')
         ax.set_title(f'{filename} audio')
         ax.set_xlabel('Frequency (Hz)')
         ax.set_ylabel('Amplitude')
-        ax.set_xlim(0, 5e3)    # Nothing fun after 5kHz
+        ax.set_xlim(0, 5000)    # Limit to 5 kHz    
         ax.grid(True)
-            
-    plt.subplots_adjust(hspace=0.69, wspace=0.420)  # hehe funny numbers
-    fig.suptitle(f'Filter type: {filteType}', fontsize=20)
-    line_original = Line2D([0], [0], color='blue', lw=2)
-    line_filtered = Line2D([0], [0], color='red', lw=2, linestyle=(0, (1,5)))
-    fig.legend([line_original, line_filtered], ['Original', 'Filtered'], loc='upper right', fontsize=14, frameon=True, ncol=1)
+        ax.legend()
+
+    plt.subplots_adjust(hspace=0.5, wspace=0.3)
+    fig.suptitle(f'Filter type: {filterType}', fontsize=20)
     plt.show()
 
 
