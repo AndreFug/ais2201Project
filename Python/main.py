@@ -40,9 +40,8 @@ def detectDominantFrequency(sampleData, fs, N):
     X = np.fft.fft(sampleData[:N])[:N//2]
     mags = np.abs(X)
     idx = np.argmax(mags)  # Index of the peak frequency
-    dominant_freq = idx * fs / N
-    return dominant_freq
-
+    dominantFreq = idx * fs / N
+    return dominantFreq
 
 class Filter:
     """
@@ -64,9 +63,8 @@ class Filter:
         filteredData = lfilter(b, a, sampleData)
         return filteredData, filterType
     
-
     @staticmethod
-    def low_highPassFilter(sampleData, fs, btype, cutoff=0):
+    def lowHighPassFilter(sampleData, fs, btype='low', cutoff=0):
         """
         Apply a low- or high-pass Butterworth filter.
         """
@@ -74,14 +72,12 @@ class Filter:
             cutoff = 25
             filterType = "Low-pass"
         else:  
-            filterType = "High-pass"
             cutoff = 4200
+            filterType = "High-pass"
         nyquist = fs * 0.5
-        normal_cutoff = cutoff / nyquist
-        b, a = butter(4, normal_cutoff, btype)
-
+        normalCutoff = cutoff / nyquist
+        b, a = butter(4, normalCutoff, btype)
         filteredData = lfilter(b, a, sampleData)
-
         return  filteredData, filterType
     
     @staticmethod
@@ -90,28 +86,18 @@ class Filter:
         Apply a Finite Impulse Response (FIR) filter.
         """
         nyquist = 0.5 * fs
-        normal_cutoff = cutoff / nyquist
+        normalCutoff = cutoff / nyquist
         filterType = "FIR"
         if btype == 'low':
-            taps = firwin(numtaps, normal_cutoff)
+            taps = firwin(numtaps, normalCutoff)
         elif btype == 'high':
-            taps = firwin(numtaps, normal_cutoff, pass_zero=False)
+            taps = firwin(numtaps, normalCutoff, pass_zero=False)
         else:
             raise ValueError("btype must be 'low' or 'high'")
         filteredData = lfilter(taps, 1.0, sampleData)
         return filteredData, filterType
 
-def test_frequency_detection(audioFiles):
-    results = {}
-    for audioType, filename in audioFiles.items():
-        fs, sampleData, N, nyquist = openAudio(filename, audioType)
-        freqs, mags = computeDFT(sampleData, N, fs)
-        fundamental = freqs[np.argmax(mags)]
-        results[filename] = fundamental
-        print(f'{filename}: Detected frequency = {fundamental} Hz')
-    return results
-
-def plot_spectrum(title, freqs, mags, freqsFiltered, magsFiltered, dominantFreqBefore, dominantFreqAfter):
+def plotSpectrum(title, freqs, mags, freqsFiltered, magsFiltered, dominantFreqBefore, dominantFreqAfter):
     """Plot the frequency spectrum with dominant frequencies marked."""
     plt.figure()
     plt.plot(freqs, mags, label='Original')
@@ -125,7 +111,7 @@ def plot_spectrum(title, freqs, mags, freqsFiltered, magsFiltered, dominantFreqB
     plt.legend()
     plt.show()
 
-# Plots all the audio files and their frequency spectrum before and after filtering
+# Plot all the audio files and their frequency spectrum before and after filtering
 def plotAll(audioFiles):
     fig, axes = plt.subplots(3, 3, figsize=(15, 12))
     for i in range(1, 10):
@@ -133,12 +119,17 @@ def plotAll(audioFiles):
         filename = audioFiles.get(audioType, "")
         fs, sampleData, N = openAudio(filename, audioType)
         freqs, mags = computeDFT(sampleData, N, fs)
-        filteredData, filterType = Filter.zeroPad(sampleData, 2 * N)
+        
+        # Apply filter (you can change the filter type and parameters here)
+        # For demonstration, we'll apply a bandpass filter that includes the expected dominant frequency
+        filteredData, filterType = Filter.bandpassFilter(sampleData, fs, lowcut=100, highcut=5000)
         freqsFiltered, magsFiltered = computeDFT(filteredData, N, fs)
+        
+        # Detect dominant frequencies before and after filtering
         dominantFreqBefore = detectDominantFrequency(sampleData, fs, N)
-        dominantFreqAfter =  detectDominantFrequency(filteredData, fs, N)
+        dominantFreqAfter = detectDominantFrequency(filteredData, fs, N)
 
-        # Plotting, dont change
+        # Plotting
         row = (i - 1) // 3
         col = (i - 1) % 3
         ax = axes[row, col]
@@ -157,11 +148,10 @@ def plotAll(audioFiles):
     fig.suptitle(f'Filter type: {filterType}', fontsize=20)
     plt.show()
 
-
-
+# Generate signals
 duration = 1
 fs = 44100
-freq = 440 #hz
+freq = 440  # Hz
 noise = 0.5
 
 t_pureSine, gen_pureSine, signalType_pureSine = generateSignal('Pure sine', freq, fs, noise, duration)
@@ -170,42 +160,47 @@ t_music, gen_music, signalType_music = generateSignal('Music', freq, fs, noise, 
 t_vocal, gen_vocal, signalType_vocal = generateSignal('Vocal', freq, fs, noise, duration)
 
 generatedSignals = {
-    1 : (t_pureSine, gen_pureSine, signalType_pureSine),
-    2 : (t_abruptSine, gen_abruptSine, signalType_abrupt),
-    3 : (t_music, gen_music, signalType_music),
-    4 : (t_vocal, gen_vocal, signalType_vocal)
+    1: (t_pureSine, gen_pureSine, signalType_pureSine),
+    2: (t_abruptSine, gen_abruptSine, signalType_abrupt),
+    3: (t_music, gen_music, signalType_music),
+    4: (t_vocal, gen_vocal, signalType_vocal)
 }
 
 def plotGenSignals(generatedSignals):
     fig, axes = plt.subplots(2, 2, figsize=(12, 12))
     for i, (key, (t, signal, signalType)) in enumerate(generatedSignals.items()):
-        t_diff = np.diff(t)
-        delta_t = np.mean(t_diff)
+        N = len(signal)
+        delta_t = t[1] - t[0]
         fs = 1 / delta_t
-        freqs, mags = computeDFT(signal, len(signal), fs)
-        filteredData, filteType = Filter.low_highPassFilter(signal, fs, 1000, 'High')          # Change for different filter types
-        freqsFiltered, magsFiltered = computeDFT(filteredData, len(filteredData), fs)
+        freqs, mags = computeDFT(signal, N, fs)
+        
+        # Apply filter (you can change the filter type and parameters here)
+        # For demonstration, we'll use a low-pass filter
+        filteredData, filterType = Filter.lowHighPassFilter(signal, fs, btype='low', cutoff=1000)
+        freqsFiltered, magsFiltered = computeDFT(filteredData, N, fs)
+        
+        # Detect dominant frequencies before and after filtering
+        dominantFreqBefore = detectDominantFrequency(signal, fs, N)
+        dominantFreqAfter = detectDominantFrequency(filteredData, fs, N)
+        
+        # Plotting
         row = i // 2
         col = i % 2
         ax = axes[row, col]
-        FREQts, FREQfreqsl, FREQmagsl = freq_detection(signal, fs, len(signal))
         ax.plot(freqs, mags, color='blue', label='Original FFT')
         ax.plot(freqsFiltered, magsFiltered, color='red', linestyle='dashed', label='Filtered DFT')
-        ax.plot(FREQts, FREQfreqsl, color='green', linestyle='dotted', label='Frequency detection')
+        ax.axvline(x=dominantFreqBefore, color='magenta', linestyle='-', label=f'Freq Before: {dominantFreqBefore:.2f} Hz')
+        ax.axvline(x=dominantFreqAfter, color='gold', linestyle=':', label=f'Freq After: {dominantFreqAfter:.2f} Hz')
         ax.set_title(signalType)
         ax.set_xlabel('Frequency (Hz)')
         ax.set_ylabel('Amplitude')
-        ax.set_xlim(0, 5e3)  # Limiting to 5 kHz
+        ax.set_xlim(0, 5000)  # Limit to 5 kHz
         ax.grid(True)
         ax.legend()
 
-    plt.subplots_adjust(hspace=0.69, wspace=0.420)  # hehe funny numbers again
-    fig.suptitle(f'Filter type: {filteType}', fontsize=20)
-    line_original = Line2D([0], [0], color='blue', lw=2)
-    line_filtered = Line2D([0], [0], color='red', lw=2, linestyle=(0, (1,5)))
-    fig.legend([line_original, line_filtered], ['Original', 'Filtered'], loc='upper right', fontsize=14, frameon=True, ncol=1)
+    plt.subplots_adjust(hspace=0.69, wspace=0.420)
+    fig.suptitle(f'Filter type: {filterType}', fontsize=20)
     plt.show()
 
 plotAll(audioFiles)
 # plotGenSignals(generatedSignals)
-
