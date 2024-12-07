@@ -44,4 +44,4 @@ def generateSignal(signalType, frequency, samplingRate, noiseLevel, duration):
         signalOut = y
     else:
         raise ValueError("Write the correct signal type, moron :)")
-    return t, signalOut, signalType
+    return t, signalOut

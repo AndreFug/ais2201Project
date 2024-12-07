@@ -1,6 +1,6 @@
 # Sourced from exercise 7 of the course.
 import numpy as np
-def freq_detection(x_n: np.ndarray, fs: int, N: int = 1024)->float:
+def freq_detection(x_n: np.ndarray, fs: int, N: int)->float:
     """
     Identifies the primary sinusoidal component in a signal x[n]
     over time by calculting successive N-point DFTs of x[n], and
