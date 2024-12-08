@@ -1,6 +1,31 @@
 import numpy as np
 import librosa, librosa.display
 
+def estimate_fundamental_frequency(signal, sampling_rate):
+    """
+    Estimate the fundamental frequency of a signal.
+
+    Parameters:
+    - signal: ndarray, the input signal.
+    - sampling_rate: float, the sampling rate of the signal in Hz.
+
+    Returns:
+    - f0: float, the estimated fundamental frequency in Hz.
+    """
+    # Compute the FFT of the signal
+    n = len(signal)
+    fft_result = np.fft.fft(signal)
+    freqs = np.fft.fftfreq(n, d=1/sampling_rate)
+    
+    # Take the magnitude of the FFT and consider only positive frequencies
+    magnitude = np.abs(fft_result[:n // 2])
+    freqs = freqs[:n // 2]
+    
+    # Find the frequency with the maximum magnitude
+    fundamental_idx = np.argmax(magnitude)
+    f0 = freqs[fundamental_idx]
+    
+    return f0
 
 def generateSignal(signalType, frequency, samplingRate, noiseLevel, duration):
     
@@ -44,4 +69,6 @@ def generateSignal(signalType, frequency, samplingRate, noiseLevel, duration):
         signalOut = y
     else:
         raise ValueError("Write the correct signal type, moron :)")
-    return t, signalOut
+    return signalOut, samplingRate
+
+
