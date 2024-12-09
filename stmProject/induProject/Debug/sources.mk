@@ -40,5 +40,15 @@ CPP_DEPS :=
 SUBDIRS := \
 Core/Src \
 Core/Startup \
+Drivers/CMSIS_DSP/Source/CommonTables \
+Drivers/CMSIS_DSP/Source/ComplexMathFunctions \
+Drivers/CMSIS_DSP/Source/StatisticsFunctions \
+Drivers/CMSIS_DSP/Source/SupportFunctions \
+Drivers/CMSIS_DSP/Source/TransformFunctions \
 Drivers/STM32F4xx_HAL_Driver/Src \
+Drivers/CMSIS/CMSIS_DSP/Source/CommonTables \
+Drivers/CMSIS/CMSIS_DSP/Source/ComplexMathFunctions \
+Drivers/CMSIS/CMSIS_DSP/Source/StatisticsFunctions \
+Drivers/CMSIS/CMSIS_DSP/Source/SupportFunctions \
+Drivers/CMSIS/CMSIS_DSP/Source/TransformFunctions \
 

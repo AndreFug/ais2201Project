@@ -2,7 +2,7 @@ from baseline_algorithm import *
 from functions import *
 import numpy as np
 from scipy.io import wavfile
-from scipy.signal import resample_poly
+from scipy.signal import resample_poly, firwin
 import matplotlib.pyplot as plt
 
 fs = 1e4
@@ -75,13 +75,12 @@ def test_sine_abrupt():
     plt.plot(time, tf, label='True Frequency $f(t)$', color='blue')
 
     for N in n_values:
-        timestamps, freqs = freq_detection(xn, fs, N=N)
+        timestamps, freqs = freq_detection_zero_pad(xn, fs, N=N)
         plt.plot(timestamps, freqs, label=f'Estimated Frequency (N={N})')
 
     plt.legend()
     plt.grid(True)
     plt.show()
-
 
 def test_note():
     audio_file = './Python/sample_audio/A4_oboe.wav'
@@ -115,10 +114,11 @@ def test_note():
 
     true_frequency = 440
     n_dft = 2048
-
+    f0 = estimate_fundamental_frequency(audio_signal_resampled, fs_target)
+    print(f0)
     for noise_var in noise_pwr:
         noise = np.random.normal(scale=np.sqrt(noise_var), size=len(audio_signal_resampled))
-        noisy_signal = audio_signal_resampled + noise
+        noisy_signal = audio_signal_resampled + noise**2
         timestamps, freqs = freq_detection(noisy_signal, fs_target, N=n_dft)
         freqs = np.clip(freqs, 0, fs_target / 2)
 
@@ -134,14 +134,16 @@ def test_note():
         variances.append(variance)
 
         h = firwin(51, [c / (fs_target / 2) for c in (25, 4200)], pass_zero=False)
-        timestamps, freqs_hanning = freq_detection_fir_filter(noisy_signal, fs_target, h, N=n_dft)
+        # timestamps, freqs_hanning = freq_detection_fir_filter(noisy_signal, fs_target, h, N=n_dft)
+        timestamps, freqs_hanning = freq_detection_hanning(noisy_signal, fs_target, N=n_dft)
+        # timestamps, freqs_hanning = freq_detection_zero_pad(noisy_signal, fs_target, N=n_dft)    
         freqs_hanning = np.clip(freqs_hanning, 0, fs_target / 2)
 
         avg_freq_hanning = np.mean(freqs_hanning)
         variance_hanning = np.var(freqs_hanning)
         error_hanning = np.abs(avg_freq_hanning - true_frequency)
 
-        avg_estimates_hanning.append(avg_freq)
+        avg_estimates_hanning.append(avg_freq_hanning)
         avg_errors_hanning.append(error)
         variances_hanning.append(variance)
 
@@ -162,6 +164,7 @@ def test_note():
     ax1.set_title('Average frequency estimate for recorded audio')
     ax1.set_ylabel('Frequency Estimate (Hz)')
     ax1.grid(True)
+    plt.legend(['Before filtering', 'After filtering'])
 
     ax2.plot(inv_snr_values, avg_errors, color='b')
     ax2.plot(inv_snr_values, avg_errors_hanning, color='g', linestyle='--')
@@ -175,6 +178,7 @@ def test_note():
     ax2.grid(True)
 
     plt.tight_layout()
+
     plt.show()
 
 
@@ -194,7 +198,8 @@ def vocal():
     audio_signal_resampled = np.pad(audio_signal_resampled[:n_samples],
                                     (0, max(0, n_samples - len(audio_signal_resampled))),
                                     'constant')
-
+    f0 = estimate_fundamental_frequency(audio_signal_resampled, fs_target)
+    print(f0)
     signal_pwr = np.mean(audio_signal_resampled ** 2)
 
     noise_pwr = np.logspace(-2, 2, 10) * signal_pwr
@@ -210,7 +215,7 @@ def vocal():
     for noise_var in noise_pwr:
         noise = np.random.normal(scale=np.sqrt(noise_var), size=len(audio_signal_resampled))
         noisy_signal = audio_signal_resampled + noise
-        timestamps, freqs = freq_detection(noisy_signal, fs_target, N=n_dft)
+        timestamps, freqs = freq_detection_hanning(noisy_signal, fs_target, N=n_dft)
         freqs = np.clip(freqs, 0, fs_target / 2)
 
         avg_freq = np.mean(freqs)
@@ -252,5 +257,6 @@ def vocal():
 
     plt.tight_layout()
     plt.show()
+
 
 test_note()

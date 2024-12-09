@@ -1,11 +1,6 @@
 from baseline_algorithm import *
 import numpy as np
 from scipy.signal import lfilter, firwin
-#------------------------
-
-# Filters
-
-#------------------------
 
 def zero_padding(signal, fs, N):
     """
@@ -59,16 +54,15 @@ def fir_filter(signal, fs, cutoff, numtaps=51, filter_type='bandpass'):
     Returns:
         numpy.ndarray: The filtered signal.
     """
-    # Normalize the cutoff frequencies
     if isinstance(cutoff, tuple):
-        cutoff = [f / (fs / 2) for f in cutoff]  # Normalize to Nyquist frequency
+        cutoff = [f / (fs / 2) for f in cutoff] 
     else:
         cutoff = cutoff / (fs / 2)
 
-    # Design the FIR filter
     fir_coeff = firwin(numtaps, cutoff, pass_zero=(filter_type == 'lowpass' or filter_type == 'bandstop'))
 
-    # Apply the filter to the signal using convolution
     filtered_signal = lfilter(fir_coeff, 1.0, signal)
 
     return filtered_signal, fir_coeff
+
+

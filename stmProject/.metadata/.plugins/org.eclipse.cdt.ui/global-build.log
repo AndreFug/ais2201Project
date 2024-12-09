@@ -1,9 +1,196 @@
-13:28:00 **** Incremental Build of configuration Debug for project induProject ****
+18:43:16 **** Incremental Build of configuration Debug for project induProject ****
 make -j16 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c:25:10: fatal error: arm_math.h: No such file or directory
-   25 | #include "arm_math.h"
+arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o"
+arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o"
+arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o"
+arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.o"
+arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.o"
+arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.o"
+arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.o"
+arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.o"
+arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.o"
+In file included from ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:156,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32f4xx_hal_conf.h:275,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c:36:
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
       |          ^~~~~~~~~~~~
 compilation terminated.
-make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+In file included from ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:156,
+arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o"
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32f4xx_hal_conf.h:275,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c:248:
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+In file included from ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:156,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32f4xx_hal_conf.h:275,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c:86:
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+compilation terminated.
+compilation terminated.
+arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o"
+In file included from ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:156,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32f4xx_hal_conf.h:275,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c:81:
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+compilation terminated.
+arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS_DSP/Include -I../Drivers/CMSIS_DSP/PrivateInclude -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.o"
+In file included from ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:156,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32f4xx_hal_conf.h:275,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c:97:
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make: *** [Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk:73: Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o] Error 1
+make: *** Waiting for unfinished jobs....
+make: *** [Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk:73: Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.o] Error 1
+In file included from ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:156,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32f4xx_hal_conf.h:275,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c:86:
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+compilation terminated.
+In file included from ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:156,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32f4xx_hal_conf.h:275,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c:76:
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+In file included from ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:156,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32f4xx_hal_conf.h:275,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c:39:
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+make: *** [Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk:73: Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o] Error 1
+compilation terminated.
+compilation terminated.
+make: *** [Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk:73: Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.o] Error 1
+make: *** [Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk:73: Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o] Error 1
+make: *** [Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk:73: Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.o] Error 1
+make: *** [Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk:73: Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.o] Error 1
+make: *** [Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk:73: Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.o] Error 1
+In file included from ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:156,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32f4xx_hal_conf.h:275,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c:47:
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make: *** [Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk:73: Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.o] Error 1
+In file included from ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:156,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32f4xx_hal_conf.h:275,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c:62:
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+compilation terminated.
+In file included from ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:156,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32f4xx_hal_conf.h:275,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c:24:
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+In file included from ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:156,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32f4xx_hal_conf.h:275,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c:108:
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+compilation terminated.
+compilation terminated.
+In file included from ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:156,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32f4xx_hal_conf.h:275,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c:23:
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make: *** [Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk:73: Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.o] Error 1
+In file included from ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:156,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32f4xx_hal_conf.h:275,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c:67:
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make: *** [Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk:73: Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.o] Error 1
+make: *** [Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk:73: Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o] Error 1
+In file included from ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:156,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32f4xx_hal_conf.h:275,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c:23:
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+In file included from ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:156,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32f4xx_hal_conf.h:275,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c:186:
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:169:10: fatal error: core_cm4.h: No such file or directory
+  169 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+compilation terminated.
+compilation terminated.
+make: *** [Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk:73: Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o] Error 1
+make: *** [Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk:73: Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.o] Error 1
+make: *** [Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk:73: Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.o] Error 1
+make: *** [Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk:73: Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o] Error 1
 "make -j16 all" terminated with exit code 2. Build might be incomplete.
