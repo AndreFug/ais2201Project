@@ -134,9 +134,13 @@ def test_note():
         variances.append(variance)
 
         h = firwin(51, [c / (fs_target / 2) for c in (25, 4200)], pass_zero=False)
-        # timestamps, freqs_hanning = freq_detection_fir_filter(noisy_signal, fs_target, h, N=n_dft)
-        timestamps, freqs_hanning = freq_detection_hanning(noisy_signal, fs_target, N=n_dft)
-        # timestamps, freqs_hanning = freq_detection_zero_pad(noisy_signal, fs_target, N=n_dft)    
+        # timestamps, freqs_hanning = freq_detection_fir_filter(noisy_signal, fs, h, N=n_dft)
+        # timestamps, freqs_hanning = freq_detection_hanning(noisy_signal, fs, N=n_dft)
+        # timestamps, freqs_hanning = freq_detection_zero_pad(noisy_signal, fs, N=n_dft)
+        filtered_signal = compined_filter(noisy_signal, fs, n_dft)
+        f0_filtered = estimate_fundamental_frequency(filtered_signal, fs)
+        print(f0_filtered)
+        freqs_hanning = freq_detection(filtered_signal, fs_target, N=n_dft)
         freqs_hanning = np.clip(freqs_hanning, 0, fs_target / 2)
 
         avg_freq_hanning = np.mean(freqs_hanning)

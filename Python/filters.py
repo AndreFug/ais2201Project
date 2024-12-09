@@ -66,3 +66,24 @@ def fir_filter(signal, fs, cutoff, numtaps=51, filter_type='bandpass'):
     return filtered_signal, fir_coeff
 
 
+def compined_filter(signal, fs, N, numtaps=51, filter_type='bandpass'):
+    n = len(signal)
+    if n >= N:
+        return signal
+    else:
+        padded_signal = np.zeros(N)
+        padded_signal[:n] = signal
+    
+    window = np.hanning(n)
+    windowed_signal = signal * window
+
+    if isinstance(cutoff, tuple):
+        cutoff = [f / (fs / 2) for f in cutoff] 
+    else:
+        cutoff = cutoff / (fs / 2)
+
+    fir_coeff = firwin(numtaps, cutoff, pass_zero=(filter_type == 'lowpass' or filter_type == 'bandstop'))
+
+    filtered_signal = lfilter(fir_coeff, 1.0, signal)
+
+    return filtered_signal, fir_coeff
